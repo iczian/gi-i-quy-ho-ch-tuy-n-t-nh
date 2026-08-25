@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ thống Giải QHTT Cao Cấp</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Plotly -->
+    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+    <!-- Marked.js -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css?v=3">
+    <!-- MathJax for rendering math -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar glass-panel">
+            <div class="logo-container" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.5rem; margin-bottom: 1rem;">
+                <img src="KHTN_logo.png" alt="Logo KHTN" style="width: 100px; height: auto; margin-bottom: 0.5rem;">
+            </div>
+            <nav class="nav-menu">
+                <p class="menu-label">ĐIỀU HƯỚNG</p>
+                <button class="nav-btn-main active" data-view="home">
+                    Trang Chủ
+                </button>
+                <button class="nav-btn-main" data-view="examples">
+                    Ví Dụ Mẫu
+                </button>
+                <button class="nav-btn-main" data-view="solver">
+                    Giải Bài Toán
+                </button>
+            </nav>
+
+            <nav class="nav-menu" id="solver-methods-nav" style="display: none; margin-top: 1.5rem;">
+                <p class="menu-label">PHƯƠNG PHÁP GIẢI</p>
+                <button class="nav-btn active" data-method="simplex">
+                    Đơn Hình (Dantzig)
+                </button>
+                <button class="nav-btn" data-method="bland">
+                    Đơn Hình (Bland)
+                </button>
+                <button class="nav-btn" data-method="two_phase">
+                    2 Pha
+                </button>
+                <button class="nav-btn" data-method="geometric">
+                    Hình Học
+                </button>
+                <button class="nav-btn" data-method="convex_combo">
+                    Tổ Hợp Lồi
+                </button>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- View: Home -->
+            <div id="view-home" class="spa-view active">
+                <header class="hero-section text-center" style="text-align: center; margin-bottom: 3rem;">
+                    <h1 class="gradient-text" style="font-size: 3.5rem;">Hệ thống Giải Toán Tối Ưu</h1>
+                    <p class="subtitle" style="max-width: 700px; margin: 1rem auto;">Công cụ hỗ trợ học tập và nghiên cứu Quy hoạch Tuyến tính, cung cấp lời giải chi tiết từng bước cho 5 phương pháp phổ biến.</p>
+                </header>
+
+                <div class="row">
+                    <div class="col glass-panel">
+                        <h3 style="color: var(--primary-color);">Hướng dẫn sử dụng</h3>
+                        <div class="guide-step">
+                            <div class="step-num-bg">1</div>
+                            <div>
+                                <strong>Chuyển đến trang Ví dụ mẫu hoặc Giải bài toán</strong>
+                                <p class="text-muted">Bạn có thể chọn ví dụ có sẵn hoặc tự nhập bài toán mới.</p>
+                            </div>
+                        </div>
+                        <div class="guide-step">
+                            <div class="step-num-bg">2</div>
+                            <div>
+                                <strong>Chọn phương pháp giải</strong>
+                                <p class="text-muted">Tùy thuộc vào đặc điểm bài toán (số biến, dấu vế phải), hệ thống sẽ cung cấp form nhập liệu phù hợp.</p>
+                            </div>
+                        </div>
+                        <div class="guide-step">
+                            <div class="step-num-bg">3</div>
+                            <div>
+                                <strong>Nhập dữ liệu</strong>
+                                <p class="text-muted">Điền hệ số hàm mục tiêu, ràng buộc và điều kiện biến.</p>
+                            </div>
+                        </div>
+                        <div class="guide-step">
+                            <div class="step-num-bg">4</div>
+                            <div>
+                                <strong>Xem lời giải</strong>
+                                <p class="text-muted">Hệ thống sẽ hiển thị từng bước xoay ma trận hoặc vẽ đồ thị trực quan.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col glass-panel">
+                        <h3 style="color: var(--secondary-color);">Gợi ý chọn phương pháp</h3>
+                        <table class="styled-table" style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid var(--panel-border); text-align: left;">
+                                    <th style="padding: 10px;">Phương pháp</th>
+                                    <th style="padding: 10px;">Đặc điểm phù hợp</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 10px; font-weight: bold;">Đơn hình (Dantzig)</td>
+                                    <td style="padding: 10px; color: var(--text-muted);">Bài toán dạng chuẩn, vế phải \( b \ge 0 \).</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 10px; font-weight: bold;">Bland</td>
+                                    <td style="padding: 10px; color: var(--text-muted);">Tránh lặp vô hạn (xoay vòng) ở bài toán suy biến.</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 10px; font-weight: bold;">Hai Pha</td>
+                                    <td style="padding: 10px; color: var(--text-muted);">Có ràng buộc \(\ge, =\) hoặc vế phải \( b < 0 \).</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 10px; font-weight: bold;">Hình học</td>
+                                    <td style="padding: 10px; color: var(--text-muted);">Bài toán có đúng 2 biến. Giải bằng đồ thị.</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px; font-weight: bold;">Tổ hợp lồi</td>
+                                    <td style="padding: 10px; color: var(--text-muted);">Bài toán nhiều biến có 2 ràng buộc đẳng thức.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 4rem; color: #555;">© 2026 Quy hoạch tuyến tính - KHTN</div>
+            </div>
+
+            <!-- View: Examples -->
+            <div id="view-examples" class="spa-view">
+                <header class="hero-section">
+                    <h1 class="gradient-text">Thư viện Ví Dụ Mẫu</h1>
+                    <p class="subtitle">Chọn một bài toán mẫu dưới đây để tải dữ liệu vào form nhập và xem cách hệ thống giải quyết các trường hợp khác nhau.</p>
+                </header>
+                <div id="examples-grid" class="examples-grid">
+                    <!-- JS will populate example cards here -->
+                </div>
+            </div>
+
+            <!-- View: Solver -->
+            <div id="view-solver" class="spa-view">
+                <header class="hero-section">
+                    <h1 class="gradient-text">Hệ thống Giải Quy hoạch Tuyến tính</h1>
+                    <p class="subtitle" id="method-description">Thuật toán cơ bản giải bài toán QHTT dạng chuẩn.</p>
+                </header>
+
+                <div class="content-wrapper">
+                    <!-- Input Section -->
+                    <section class="input-section glass-panel">
+                        <h3><span class="step-num">1</span> Khai báo Bài toán</h3>
+                        
+                        <div class="form-group row">
+                            <div class="col">
+                                <label>Loại Hàm Mục Tiêu</label>
+                                <select id="loai_hmt" class="styled-select">
+                                    <option value="max">Max</option>
+                                    <option value="min">Min</option>
+                                </select>
+                            </div>
+                            <div class="col" id="n_goc_col">
+                                <label>Số biến (n)</label>
+                                <input type="number" id="n_goc" value="2" min="1" max="10" class="styled-input">
+                            </div>
+                        </div>
+
+                        <div id="objective-func-container" class="dynamic-container">
+                            <label>Hệ số Hàm Mục Tiêu (C)</label>
+                            <div class="flex-row" id="c_inputs">
+                                <!-- JS will populate inputs here -->
+                            </div>
+                        </div>
+
+                        <div id="constraints-container" class="dynamic-container">
+                            <div class="flex-row justify-between">
+                                <label>Hệ thống Ràng buộc</label>
+                                <button id="add-constraint-btn" class="btn btn-secondary btn-sm">+ Thêm Ràng Buộc</button>
+                            </div>
+                            <div id="rb_inputs" class="rb-list">
+                                <!-- JS will populate constraints here -->
+                            </div>
+                        </div>
+
+                        <div id="var-bounds-container" class="dynamic-container mt-4">
+                            <label>Điều kiện Biến (Dấu)</label>
+                            <div class="flex-row" id="bound_inputs">
+                                <!-- JS will populate bounds here -->
+                            </div>
+                        </div>
+
+                        <div class="action-row">
+                            <button id="solve-btn" class="btn btn-primary btn-glow">GIẢI BÀI TOÁN</button>
+                            <div class="loader" id="loading-spinner" style="display: none;"></div>
+                        </div>
+                    </section>
+
+                    <!-- Results Section -->
+                    <section id="results-section" class="results-section glass-panel" style="display: none;">
+                        <h3><span class="step-num">2</span> Kết quả & Phân tích</h3>
+                        
+                        <div id="result-status" class="status-banner"></div>
+                        
+                        <div id="result-details" class="result-details">
+                            <!-- JS will populate optimal solutions and Z here -->
+                        </div>
+
+                        <!-- Graph Container (For geometric/convex) -->
+                        <div id="graph-container" class="graph-container mt-4" style="display: none;">
+                            <h4 class="mb-2">Đồ thị</h4>
+                            
+                            <div id="z-slider-container" style="display: none; margin-bottom: 1rem; align-items: center; gap: 1rem; background: var(--bg-color); padding: 1rem; border-radius: 8px; border: 1px solid var(--panel-border);">
+                                <label for="z-slider" style="font-weight: 600; min-width: 100px; color: var(--primary-color);">Z = <span id="z-slider-value">0</span></label>
+                                <input type="range" id="z-slider" style="flex: 1; cursor: pointer;">
+                            </div>
+
+                            <div id="plotly-graph" style="width: 100%; height: 500px;"></div>
+                        </div>
+
+                        <!-- Logs/Table Container (For simplex/twophase) -->
+                        <div id="logs-container" class="logs-container mt-4" style="display: none;">
+                            <h4 class="mb-2">Quá trình giải</h4>
+                            <div id="simplex-logs" class="logs-content"></div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 10px;"></div>
+
+    <script src="app.js?v=9"></script>
+</body>
+</html>
