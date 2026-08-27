@@ -503,20 +503,30 @@ function displayResults(data) {
     if (data.fig_json) {
         graphContainer.style.display = 'block';
         
-        // Adapt Plotly layout for Dark Theme
+        // Adapt Plotly layout for Light Theme and frame
         let fig = data.fig_json;
         fig.layout.paper_bgcolor = 'transparent';
         fig.layout.plot_bgcolor = 'transparent';
-        fig.layout.font = { color: '#E2E8F0' };
+        fig.layout.font = { color: '#212529' };
         if (fig.layout.xaxis) {
-            fig.layout.xaxis.gridcolor = 'rgba(255,255,255,0.1)';
-            fig.layout.xaxis.zerolinecolor = 'rgba(255,255,255,0.2)';
+            fig.layout.xaxis.gridcolor = 'rgba(0,0,0,0.05)';
+            fig.layout.xaxis.zerolinecolor = 'rgba(0,0,0,0.6)';
+            fig.layout.xaxis.zerolinewidth = 2;
+            fig.layout.xaxis.showline = true;
+            fig.layout.xaxis.linewidth = 1;
+            fig.layout.xaxis.linecolor = 'rgba(0,0,0,0.3)';
+            fig.layout.xaxis.mirror = true;
         }
         if (fig.layout.yaxis) {
-            fig.layout.yaxis.gridcolor = 'rgba(255,255,255,0.1)';
-            fig.layout.yaxis.zerolinecolor = 'rgba(255,255,255,0.2)';
+            fig.layout.yaxis.gridcolor = 'rgba(0,0,0,0.05)';
+            fig.layout.yaxis.zerolinecolor = 'rgba(0,0,0,0.6)';
+            fig.layout.yaxis.zerolinewidth = 2;
+            fig.layout.yaxis.showline = true;
+            fig.layout.yaxis.linewidth = 1;
+            fig.layout.yaxis.linecolor = 'rgba(0,0,0,0.3)';
+            fig.layout.yaxis.mirror = true;
         }
-        fig.layout.legend = { bgcolor: 'rgba(0,0,0,0.5)', font: { color: '#E2E8F0' } };
+        fig.layout.legend = { bgcolor: 'rgba(255,255,255,0.9)', font: { color: '#212529' }, bordercolor: 'rgba(0,0,0,0.2)', borderwidth: 1 };
 
         let zTraceIndex = -1;
         if (currentMethod === 'geometric') {
