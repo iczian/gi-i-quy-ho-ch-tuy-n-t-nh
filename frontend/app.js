@@ -526,7 +526,20 @@ function displayResults(data) {
             fig.layout.yaxis.linecolor = 'rgba(0,0,0,0.3)';
             fig.layout.yaxis.mirror = true;
         }
-        fig.layout.legend = { bgcolor: 'rgba(255,255,255,0.9)', font: { color: '#212529' }, bordercolor: 'rgba(0,0,0,0.2)', borderwidth: 1 };
+        
+        // Move legend below the graph and adjust margins to prevent cutoff
+        fig.layout.legend = { 
+            bgcolor: 'rgba(255,255,255,0.9)', 
+            font: { color: '#212529' }, 
+            bordercolor: 'rgba(0,0,0,0.2)', 
+            borderwidth: 1,
+            orientation: 'h',
+            yanchor: 'top',
+            y: -0.2,
+            xanchor: 'center',
+            x: 0.5
+        };
+        fig.layout.margin = { l: 60, r: 40, t: 60, b: 150 };
 
         let zTraceIndex = -1;
         if (currentMethod === 'geometric') {
