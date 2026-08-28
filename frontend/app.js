@@ -195,7 +195,9 @@ function addConstraintRow() {
         </div>
         <select class="styled-select dau-val">
             <option value="<=">&le;</option>
+            <option value="<">&lt;</option>
             <option value=">=">&ge;</option>
+            <option value=">">&gt;</option>
             <option value="=">=</option>
         </select>
         <input type="number" step="any" class="styled-input input-var b-val" value="0">
