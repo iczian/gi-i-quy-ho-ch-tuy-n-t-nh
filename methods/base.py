@@ -204,12 +204,15 @@ def khoi_tao_bai_toan_don_hinh(loai_hmt, n_goc, mang_c_goc, dau_cac_bien, ds_rb_
     for i in range(m_rb):
         dau_rb = ds_rb_vao[i][1]
         b_val = ds_rb_vao[i][2]
+        if dau_rb in ['<', '>']:
+            log.append(f"⚠️ *Lưu ý: Bất đẳng thức ngặt '{dau_rb}' ở ràng buộc {i+1} được tự động chuyển thành '{dau_rb}=' để giải bằng thuật toán (nghiệm nếu nằm trên biên mở sẽ không hợp lệ).*")
+        
         if dau_rb == '=':
             a_tam_sau_tach.append(a_tam_sau_bien[i])
             ds_vp.append(b_val)
             a_tam_sau_tach.append([-x for x in a_tam_sau_bien[i]])
             ds_vp.append(-b_val)
-        elif dau_rb == '>=':
+        elif dau_rb in ['>=', '>']:
             a_tam_sau_tach.append([-x for x in a_tam_sau_bien[i]])
             ds_vp.append(-b_val)
         else:

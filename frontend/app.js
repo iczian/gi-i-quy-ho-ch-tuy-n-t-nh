@@ -442,6 +442,9 @@ function displayResults(data) {
     } else if (status === 'KHONG_GIOI_NOI') {
         resultStatus.className = 'status-banner status-danger';
         resultStatus.innerHTML = 'BÀI TOÁN KHÔNG GIỚI NỘI';
+    } else if (status === 'KHONG_DAT_TOI_UU_DO_BIEN_MO') {
+        resultStatus.className = 'status-banner status-warning';
+        resultStatus.innerHTML = 'BÀI TOÁN KHÔNG ĐẠT TỐI ƯU DO ĐỈNH NẰM TRÊN BIÊN MỞ';
     } else if (status === 'NGHIEM_DUY_NHAT' || (status === 'TOI_UU' && !is_vo_so)) {
         resultStatus.className = 'status-banner status-success';
         resultStatus.innerHTML = 'ĐÃ TÌM THẤY NGHIỆM TỐI ƯU DUY NHẤT';
