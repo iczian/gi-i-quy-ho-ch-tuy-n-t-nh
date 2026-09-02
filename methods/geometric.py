@@ -1,4 +1,3 @@
-import math
 import numpy as np
 import plotly.graph_objects as go
 from methods.base import sap_xep_dinh_theo_goc, doi_phan_so

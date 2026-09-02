@@ -11,7 +11,7 @@ def doi_phan_so(he_so):
         if f.denominator == 1:
             return str(f.numerator)
         return f"{f.numerator}/{f.denominator}"
-    except:
+    except Exception:
         return f"{he_so:.4f}"
 
 def format_coef_var(he_so, ten_bien):
